@@ -18,24 +18,35 @@ body {
   label {
     font: 24px "Andale Mono", monospace;
     color: #00CF64;
+    margin: 10px;
   }
 
   .box {
     background-color: #F7F7F7;
     font: 24px "Andale Mono", monospace;
     color: #00853C;
+    margin: 10px;
   }
 
   .button {
     background-color: #00CF64;
     font: 24px "Andale Mono", monospace;
     color: #292929;
-    margin-top: 15px;
     border-radius: 8px;
     padding: 5px 8px;
+  }
+
+  .options {
+    font: 18px "Andale Mono", monospace;
+    color: #00CF64;
+    margin: 10px;
   }
 
   .center {
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .indent {
+    margin-left: 15px;
   }
