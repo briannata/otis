@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Webcam from "react-webcam";
+import axios from 'axios';
  
 const WebcamComponent = () => <Webcam />;
 
@@ -17,7 +18,7 @@ const WebcamComponent = () => <Webcam />;
       this.onSubmit = this.onSubmit.bind(this)
 
       this.state = {
-        phone: 0,
+        phone: 1234567890,
         num_of_people: 0,
         stay_length: 0,
         wheelchair: false,
@@ -51,16 +52,22 @@ const WebcamComponent = () => <Webcam />;
       })
     }
 
-    onChangeWheelchair(bool) {
+    onChangeWheelchair(event) {
+      const target = event.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+  
       this.setState({
-        wheelchair: bool
-      })
+        wheelchair: value
+      });
     }
 
-    onChangeChildSupport(bool) {
+    onChangeChildSupport(event) {
+      const target = event.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+  
       this.setState({
-        childsupport: bool
-      })
+        childsupport: value
+      });
     }
 
     onSubmit(e) {
@@ -75,6 +82,9 @@ const WebcamComponent = () => <Webcam />;
 
       console.log(data);
 
+      axios.post('http://localhost:5000/data/add', data)
+        .then(res => console.log(res.data));
+
       window.location = '/'
     }
 
@@ -83,25 +93,28 @@ const WebcamComponent = () => <Webcam />;
         <form onSubmit={this.onSubmit}>
 
         <label>What is your mobile number?</label><br></br>
-        <input type="text" name="number" class="box" value={this.state.value} onChange={this.onChangePhone(this.state.value)} />
+        <input type="text" className="box" onChange={this.onChangePhone} />
         <br></br>
 
+        <label>How many people are with you?</label><br></br>
+        <input type="text" className="box" onChange={this.onChangePeople} />
+        <br></br>
+        
         <label>How long do you plan to stay (in minutes)?</label><br></br>
-        <input type="text" name="number" class="box" value={this.state.value} onChange={this.onChangeStayLength(this.state.value)} />
+        <input type="text" className="box" onChange={this.onChangeStayLength} />
         <br></br>
 
-        <label>Do you need any additional support?</label>
-        <div class="indent">
-          <input type="checkbox" id="support1" name="support1" value="Wheelchair"/>
-          <label for="vehicle1" class="options"> Wheelchair Access</label><br></br>
-          <input type="checkbox" id="support2" name="support2" value="Child"/>
-          <label for="vehicle2" class="options"> Child Support</label><br></br>
-          <input type="checkbox" id="support3" name="support3" value="Disability"/>
-          <label for="vehicle3" class="options"> Disability</label><br></br>
-        </div>
+        <label>Do you need any additional support?
+          <div className="indent">
+            <input type="checkbox" checked={this.state.wheelchair} onChange={this.onChangeWheelchair}/>
+            <label className="options"> Wheelchair Access</label><br></br>
+            <input type="checkbox" checked={this.state.childsupport} onChange={this.onChangeChildSupport}/>
+            <label className="options"> Child Support</label><br></br>
+          </div>
+        </label>
 
         <br></br>
-        <input type="submit" class="button" value="Submit" />
+        <input type="submit" className="button" value="Submit" />
       </form>
       );
     }

@@ -18,9 +18,7 @@ connection.once('open', () => {
 })
 
 const dataRouter = require('./routes/data');
-const customersRouter = require('./routes/customers');
 
-app.use('/customers', customersRouter);
 app.use('/data', dataRouter);
 
 app.listen(port, () => {
