@@ -21,7 +21,7 @@ const dataRouter = require('./routes/data');
 app.use('/data', dataRouter);
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('../build'));
+    app.use(express.static('./build'));
 }
 
 app.listen(port, console.log(`Server is starting at ${port}`));
