@@ -21,13 +21,8 @@ connection.once('open', () => {
 const dataRouter = require('./routes/data');
 app.use('/data', dataRouter);
 
-app.use(express.static('../build'));
-
 if (process.env.NODE_ENV === 'production') {
-    //app.use(express.static('build'));
-    //app.get("*", (req, res) => {
-    //    res.sendFile(path.resolve(__dirname,  "build", "index.html"));
-    //});
+    app.use(express.static('../build'));
 }
 
 app.listen(port, console.log(`Server is starting at ${port}`));
