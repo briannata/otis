@@ -21,6 +21,7 @@ const dataRouter = require('./routes/data');
 app.use('/data', dataRouter);
 
 if (process.env.NODE_ENV === 'production') {
+    console.log("production");
     app.use(express.static('./build'));
 }
 
