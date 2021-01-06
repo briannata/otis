@@ -22,7 +22,7 @@
     "start": "cd backend && node server.js",
     "dev": "react-scripts start",
     "build": "react-scripts build",
-    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
+    "heroku-postbuild": "npm install && npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
