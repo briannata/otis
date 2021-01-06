@@ -82,7 +82,7 @@ const WebcamComponent = () => <Webcam />;
 
       console.log(data);
 
-      axios.post('http://localhost:5000/data/add', data)
+      axios.post('data/add', data)
         .then(res => console.log(res.data));
 
       window.location = '/'
