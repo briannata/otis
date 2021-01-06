@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const path = require('path');
+var spawn = require("child_process").spawn;
 
 require('dotenv').config();
 
@@ -20,6 +20,12 @@ connection.once('open', () => {
 
 const dataRouter = require('./routes/data');
 app.use('/data', dataRouter);
+
+console.log("i love my baby");
+var script = spawn('python3', ["./python/test.py"]);
+script.stdout.on('data', function (data) {
+    console.log(data.toString());
+});
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('../build'));
