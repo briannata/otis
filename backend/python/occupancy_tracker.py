@@ -9,6 +9,27 @@ import time
 import dlib
 import cv2
 
+import os
+import urllib
+import pymongo
+
+# create the database URI from the .env data
+URI = "mongodb+srv://%s:%s@cluster0.fmpvk.mongodb.net/customers?retryWrites=true&w=majority" \
+    % (os.getenv("USER"), urllib.parse.quote_plus(str(os.getenv("PASS"))))
+
+# establish database connection
+print("[INFO] establishing connection to database...")
+
+conn = pymongo.MongoClient(URI)
+db = conn.get_database('occupancy_db')
+occupancies = db.occupancies
+
+# currently we are hard coding the only available location
+LOC = 'marvil_home'
+data = occupancies.find_one({'location':LOC})
+occupancy = data['occupancy']
+maxOccupancy = data['max_occupancy']
+
 # load the object detection model
 print("[INFO] loading model...")
 
@@ -33,16 +54,13 @@ ct = CentroidTracker(maxDisappeared=40, maxDistance=50)
 trackers = []
 trackableObjects = {}
 
-# initialize our statistics
-numFrames = 0
-totalEntered = 0
-totalExited = 0
-
 # initialize our window
 cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 
 width, height = None, None
+numFrames = 0
+occupancyChanged = False
 
 # only run the detection every 30 frames for performance
 skipFrames = 30
@@ -133,14 +151,16 @@ while True:
 
             # check to see if the object has been counted or not
             if not to.counted:
-                # if dir is negative and the line has been crossed increment exited
+                # if dir is negative and the line has been crossed decrement occupancy
                 if direction < 0 and centroid[1] < width // 2:
-                    totalExited += 1
+                    occupancy -= 1
                     to.counted = True
-                # if dir is positive and the line has been crossed increment entered
+                    occupancyChanged = True
+                # if dir is positive and the line has been crossed increment occupancy
                 elif direction > 0 and centroid[1] > width // 2:
-                    totalEntered += 1
+                    occupancy += 1
                     to.counted = True
+                    occupancyChanged = True
         
         # store the trackable object in the dictionary
         trackableObjects[objectID] = to
@@ -150,20 +170,17 @@ while True:
         cv2.putText(frame, text, (centroid[0] - 10, centroid[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         cv2.circle(frame, (centroid[0], centroid[1]), 4, (0, 255, 0), -1)
     
-    # construct a tuple of information we will be displaying on the frame
-    info = [
-        ("Entered", totalEntered),
-        ("Exited", totalExited),
-        ("Status", status),
-    ]
 
-    # loop over the info tuples and draw them on our frame
-    for (i, (k, v)) in enumerate(info):
-    	text = "{}: {}".format(k, v)
-    	cv2.putText(frame, text, (10, height - ((i * 20) + 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
-
-    # display the frame
+    # display information
+    text = "Occupancy: " + str(occupancy) + "/" + str(maxOccupancy)
+    cv2.putText(frame, text, (5, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+    cv2.putText(frame, "Status: " + status, (5, height - 35), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
     cv2.imshow('window', frame)
+
+    # update the database
+    if occupancyChanged:
+        occupancies.update_one({'location':'marvil_home'}, {'$set': {'occupancy':occupancy}})
+        occupancyChanged = False
 
     # break on escape
     if cv2.waitKey(1) & 0xFF == 27:

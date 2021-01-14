@@ -9,6 +9,8 @@ imutils = "*"
 dlib = "*"
 numpy = "*"
 scipy = "*"
+pymongo = "*"
+dnspython = "*"
 
 [dev-packages]
 
