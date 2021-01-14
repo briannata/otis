@@ -21,12 +21,6 @@ connection.once('open', () => {
 const dataRouter = require('./routes/data');
 app.use('/data', dataRouter);
 
-console.log("i love my baby");
-var script = spawn('python3', ["./python/test.py"]);
-script.stdout.on('data', function (data) {
-    console.log(data.toString());
-});
-
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('../build'));
 }
