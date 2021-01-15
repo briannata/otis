@@ -65,7 +65,7 @@ export default class Occupancy extends React.Component {
 
     onChangePhone(e) {
       this.setState({
-        phone: e.target.value
+        phone: e.target.value.replace("-", "")
       })
     }
 
@@ -99,18 +99,6 @@ export default class Occupancy extends React.Component {
       });
     }
 
-    checkValidity(data) {
-      const phone = data.phone;
-      const num = data.num_of_people;
-      const len = data.stay_length;
-      if(isNaN(phone))
-        return false;
-      if(isNaN(num))
-        return false;
-      if(isNaN(len))
-        return false;
-    }
-
     onSubmit(e) {
       e.preventDefault();
       const data = {
@@ -119,13 +107,6 @@ export default class Occupancy extends React.Component {
         stay_length: this.state.stay_length,
         wheelchair: this.state.wheelchair,
         childsupport: this.state.childsupport
-      }
-
-      while(this.checkValidity(data) == false){
-        var box1 = getElementById("box1");
-        var box2 = getElementById("box2");
-        var box3 = getElementById("box3");
-        //box1.border-color = "#ff0703"; FIX THISSS
       }
 
       const line = this.state.line;
@@ -138,18 +119,6 @@ export default class Occupancy extends React.Component {
 
       require('dotenv').config();
 
-      const accountSid = process.env.TWILIO_ACCOUNT_SID;
-      const authToken = process.env.TWILIO_AUTH_TOKEN;
-      const client = require('twilio')(accountSid, authToken);
-
-      client.messages
-        .create({
-          body: 'Hello. There are ' + String(num) + ' people in front of you. Your approximate wait time is ' + String(waittime) + " minutes.",
-          from: process.env.TWILIO_PHONE_NUM,
-          to: '+1' + String(this.state.phone)
-        })
-        .then(message => console.log(message.sid));
-
       axios.post('data/add', data)
       .then(res => console.log(res.data));
 
@@ -159,30 +128,34 @@ export default class Occupancy extends React.Component {
     render() {
       return (
         <form onSubmit={this.onSubmit}>
+          <div style={{display: "inline-block", textAlign: "left"}}>
+            <label>What is your 10 digit mobile number?</label><br></br>
+            <input type="tel" placeholder="i.e. 123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" id="box1" className="box" onChange={this.onChangePhone}/>
+            <br></br>
 
-        <label>What is your 10 digit mobile number?</label><br></br>
-        <input type="text" id="box1" className="box" onChange={this.onChangePhone} value={this.onChangePhone}/>
-        <br></br>
+            <label>How many people are you reserving for?</label><br></br>
+            <input type="text" placeholder="i.e. 5" id="box2" pattern="[0-9]{1,}" className="box" onChange={this.onChangePeople}/>
+            <br></br>
+            
+            <label>How long do you plan to stay (in minutes)?</label><br></br>
+            <input type="text" placeholder="i.e. 30" id="box3" pattern="[0-9]{1,}" className="box" onChange={this.onChangeStayLength}/>
+            <br></br>
 
-        <label>How many people are you reserving for?</label><br></br>
-        <input type="text" id="box2" className="box" onChange={this.onChangePeople} value={this.onChangePeople}/>
-        <br></br>
-        
-        <label>How long do you plan to stay (in minutes)?</label><br></br>
-        <input type="text" id="box3" className="box" onChange={this.onChangeStayLength} value={this.onChangeStayLength}/>
-        <br></br>
-
-        <label>Do you need any additional support?
-          <div className="indent">
-            <input type="checkbox" checked={this.state.wheelchair} onChange={this.onChangeWheelchair}/>
-            <label className="options"> Wheelchair Access</label><br></br>
-            <input type="checkbox" checked={this.state.childsupport} onChange={this.onChangeChildSupport}/>
-            <label className="options"> Child Support</label><br></br>
+            <label>Do you need any additional support?
+              <div className="indent">
+                <input type="checkbox" checked={this.state.wheelchair} onChange={this.onChangeWheelchair}/>
+                <label className="options"> Wheelchair Access</label><br></br>
+                <input type="checkbox" checked={this.state.childsupport} onChange={this.onChangeChildSupport}/>
+                <label className="options"> Child Support</label><br></br>
+              </div>
+            </label>
           </div>
-        </label>
 
         <br></br>
-        <input type="submit" className="button" value="Submit" />
+        <div style={{alignItems: "center"}}>
+          <input type="submit" className="button" value="Submit" />
+        </div>
+        
       </form>
       );
     }

@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 
 body {
-    background-color: #292929;
-  }
+  background-image: url('desktop.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #292929;
+}
 
   h1 {
     font: 100px 'Nunito', sans-serif;
@@ -10,11 +13,14 @@ body {
     margin: 0px;
     padding-bottom: 10px;
     letter-spacing: 10px;
+    text-align: center;
   }
 
   h3 {
     font: 24px 'Nunito', sans-serif;
     color: #00CF64;
+    text-align: center;
+    margin-top: 0px;
   }
 
   label {
@@ -25,7 +31,7 @@ body {
 
   .box {
     background-color: #F7F7F7;
-    font: 24px 'Nunito', sans-serif;
+    font: 18px 'Nunito', sans-serif;
     color: #04b85a;
     margin: 10px;
     border: 2px solid #04b85a;
@@ -37,55 +43,63 @@ body {
     color: #292929;
     border-radius: 8px;
     padding: 5px 8px;
+    
+  }
+
+  form {
+    text-align: center;
   }
 
   .options {
     font: 16px 'Nunito', sans-serif;
     color: #04b85a;
     margin: 10px;
-    padding-left: 0px;
     margin-left: 0px;
   }
 
-  .center {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .indent {
-    margin-left: 15px;
+    margin-left: 5%;
   }
 
   @media only screen and (max-device-width: 1366px) {
 
+    body {
+      background-image: url('mobile.png');
+    }
+
     h1 {
-        text-align: center;
+        padding-top: 11%;
         margin-bottom: 0px;
         padding-bottom: 0px;
     }
     
     h3 {
       font-size: 24px;
-      text-align: center;
     }
 
-    label, .box {
-        font-size: 18px;
-        padding: 0px;
-        margin-left: 5%;
-        margin-right: 0px;
-        margin-top: 1%;
-    }
+    label  {
+      font-size: 18px;
+      padding: 0px;
+      margin-right: 0px;
+      margin-top: 1%;
+  }
+
+    .box {
+      font-size: 16px;
+      padding: 0px;
+      margin-right: 0px;
+      margin-top: 1%;
+  }
 
     .options {
         font-size: 16px;
         padding: 0px;
-        margin-left: 5%;
         margin-right: 0px;
         margin-top: 1%;
     }
 
     .button {
-      margin-left: 37.5%;
+      margin-top: 3%;
     }
+
 }
