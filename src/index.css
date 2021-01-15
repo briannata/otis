@@ -1,45 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
 body {
     background-color: #292929;
   }
 
   h1 {
-    font: 100px "Andale Mono", monospace;
-    color: #00CF64;
+    font: 100px 'Nunito', sans-serif;
+    color: #02de6c;
     margin: 0px;
     padding-bottom: 10px;
     letter-spacing: 10px;
   }
 
   h3 {
-    font: 24px "Andale Mono", monospace;
+    font: 24px 'Nunito', sans-serif;
     color: #00CF64;
   }
 
   label {
-    font: 24px "Andale Mono", monospace;
-    color: #00CF64;
+    font: 24px 'Nunito', sans-serif;
+    color: #04b85a;
     margin: 10px;
   }
 
   .box {
     background-color: #F7F7F7;
-    font: 24px "Andale Mono", monospace;
-    color: #00853C;
+    font: 24px 'Nunito', sans-serif;
+    color: #04b85a;
     margin: 10px;
+    border: 2px solid #04b85a;
   }
 
   .button {
-    background-color: #00CF64;
-    font: 24px "Andale Mono", monospace;
+    background-color: #02de6c;
+    font: 24px 'Nunito', sans-serif;
     color: #292929;
     border-radius: 8px;
     padding: 5px 8px;
   }
 
   .options {
-    font: 18px "Andale Mono", monospace;
-    color: #00CF64;
+    font: 16px 'Nunito', sans-serif;
+    color: #04b85a;
     margin: 10px;
+    padding-left: 0px;
+    margin-left: 0px;
   }
 
   .center {
@@ -50,3 +55,37 @@ body {
   .indent {
     margin-left: 15px;
   }
+
+  @media only screen and (max-device-width: 1366px) {
+
+    h1 {
+        text-align: center;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+    
+    h3 {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    label, .box {
+        font-size: 18px;
+        padding: 0px;
+        margin-left: 5%;
+        margin-right: 0px;
+        margin-top: 1%;
+    }
+
+    .options {
+        font-size: 16px;
+        padding: 0px;
+        margin-left: 5%;
+        margin-right: 0px;
+        margin-top: 1%;
+    }
+
+    .button {
+      margin-left: 37.5%;
+    }
+}
