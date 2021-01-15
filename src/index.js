@@ -110,28 +110,27 @@ export default class Occupancy extends React.Component {
       }
 
       const line = this.state.line;
+      const num = line.length;
+      const waittime = 0;
 
-      console.log(line);
+      line.forEach(element => waittime += element.stay_length);
 
       console.log(data);
 
-      /*const Nexmo = require('nexmo');
-
+      const Nexmo = require('nexmo');
       const nexmo = new Nexmo({
         apiKey: '92c9aae3',
         apiSecret: '3BfLlBNjZ5VuNQHB',
       });
-
       const from = '15715095603';
       const to = '1' + this.state.phone.toString();
-      const text = 'Hello. You are 1st in line. Your approximate wait time is 0 minutes.';
-
+      const text = 'Hello. There are ' + String(num) + ' people in front of you. Your approximate wait time is ' + String(waittime) + " minutes.";
       nexmo.message.sendSms(from, to, text);
 
       axios.post('data/add', data)
-        .then(res => console.log(res.data));
+      .then(res => console.log(res.data));
 
-      window.location = '/'*/
+      window.location = '/'
     }
 
     render() {
