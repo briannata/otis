@@ -130,7 +130,7 @@ export default class Occupancy extends React.Component {
         <form onSubmit={this.onSubmit}>
           <div style={{display: "inline-block", textAlign: "left"}}>
             <label>What is your 10 digit mobile number?</label><br></br>
-            <input type="tel" placeholder="i.e. 123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" id="box1" className="box" onChange={this.onChangePhone}/>
+            <input type="tel" placeholder="i.e. 123-456-7890" pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{4}" id="box1" className="box" onChange={this.onChangePhone}/>
             <br></br>
 
             <label>How many people are you reserving for?</label><br></br>
