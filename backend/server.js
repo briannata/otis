@@ -21,6 +21,9 @@ connection.once('open', () => {
 const dataRouter = require('./routes/data');
 app.use('/data', dataRouter);
 
+const occupancyRouter = require('./routes/occupancy');
+app.use('/occupancy', occupancyRouter);
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('../build'));
 }

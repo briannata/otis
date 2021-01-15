@@ -1,10 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Webcam from "react-webcam";
 import axios from 'axios';
- 
-const WebcamComponent = () => <Webcam />;
+
+export default class Occupancy extends React.Component {
+  state = {
+    place: {}
+  }
+
+  componentDidMount() {
+    axios.get('occupancy/6000a0b12480f9d0c84af1c0')
+      .then(res => {
+        const place = res.data;
+        this.setState({ place });
+      })
+  }
+
+  render() {
+    return (
+      <div>
+        <h3><strong>Occupancy: </strong>{this.state.place.occupancy}</h3>
+        <h3><strong>Max Occupancy: </strong>{this.state.place.max_occupancy}</h3>
+      </div>
+    )
+  }
+} 
 
   class Form extends React.Component {
     constructor(props) {
@@ -23,9 +43,18 @@ const WebcamComponent = () => <Webcam />;
         stay_length: 0,
         wheelchair: false,
         childsupport: false,
-        users: []
+        users: [],
+        line: []
       }
     }
+
+    componentDidMount() {
+      axios.get('data/')
+        .then(res => {
+          const line = res.data;
+          this.setState({ line });
+        })
+      }
 
     componentDidMount() {
       this.setState({
@@ -80,9 +109,13 @@ const WebcamComponent = () => <Webcam />;
         childsupport: this.state.childsupport
       }
 
+      const line = this.state.line;
+
+      console.log(line);
+
       console.log(data);
 
-      const Nexmo = require('nexmo');
+      /*const Nexmo = require('nexmo');
 
       const nexmo = new Nexmo({
         apiKey: '92c9aae3',
@@ -98,18 +131,18 @@ const WebcamComponent = () => <Webcam />;
       axios.post('data/add', data)
         .then(res => console.log(res.data));
 
-      window.location = '/'
+      window.location = '/'*/
     }
 
     render() {
       return (
         <form onSubmit={this.onSubmit}>
 
-        <label>What is your mobile number?</label><br></br>
+        <label>What is your 10 digit mobile number?</label><br></br>
         <input type="text" className="box" onChange={this.onChangePhone} />
         <br></br>
 
-        <label>How many people are with you?</label><br></br>
+        <label>How many people are you reserving for?</label><br></br>
         <input type="text" className="box" onChange={this.onChangePeople} />
         <br></br>
         
@@ -134,13 +167,13 @@ const WebcamComponent = () => <Webcam />;
   }
   
   // ========================================
-  
-  ReactDOM.render(
-    <Webcam />,
-    document.getElementById('left')
-  );
 
   ReactDOM.render(
+    <Occupancy />,
+    document.getElementById('occupancy')
+  );
+  
+  ReactDOM.render(
     <Form />,
-    document.getElementById('right')
+    document.getElementById('thing')
   );
