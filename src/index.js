@@ -37,7 +37,7 @@ export default class Occupancy extends React.Component {
       this.onSubmit = this.onSubmit.bind(this)
 
       this.state = {
-        phone: 1234567890,
+        phone: 0,
         num_of_people: 0,
         stay_length: 0,
         wheelchair: false,
@@ -55,13 +55,6 @@ export default class Occupancy extends React.Component {
           this.setState({ line });
         })
       }
-
-    componentDidMount() {
-      this.setState({
-        users: ['test user'],
-        username: 'test user'
-      })
-    }
 
     onChangePhone(e) {
       this.setState({
@@ -109,20 +102,16 @@ export default class Occupancy extends React.Component {
         childsupport: this.state.childsupport
       }
 
-      const line = this.state.line;
-      const num = line.length;
-      const waittime = 0;
-
-      line.forEach(element => waittime += element.stay_length);
-
       console.log(data);
 
       require('dotenv').config();
 
-      axios.post('data/add', data)
-      .then(res => console.log(res.data));
+      if(data.phone !== 0) {
+        axios.post('data/add', data)
+        .then(res => console.log(res.data));
 
-      window.location = '/'
+        window.location = '/'
+      }
     }
 
     render() {
