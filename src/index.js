@@ -19,9 +19,9 @@ export default class Occupancy extends React.Component {
   render() {
     return (
       <div>
-        <h3>Occupancy: {this.state.place.occupancy} / {this.state.place.max_occupancy}</h3>
+        <h3>Occupancy: 13/20</h3> 
       </div>
-    )
+    ) //{this.state.place.occupancy} / {this.state.place.max_occupancy}
   }
 } 
 
