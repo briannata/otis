@@ -12,11 +12,12 @@ app.use(cors());
 app.use(express.json());
 
 mongoose.connect(process.env.ATLAS_URI, {useNewUrlParser: true, useCreateIndex: true});
+const db = mongoose.connection;
 
-const connection = mongoose.connection;
-connection.once('open', () => {
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
     console.log("MongoDB database connection established successfully");
-})
+});
 
 const dataRouter = require('./routes/data');
 app.use('/data', dataRouter);
