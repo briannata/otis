@@ -2,6 +2,8 @@
 
 MERN stack web application for tracking building occupancy using Computer Vision and Machine Learning; deployed on Heroku using AWS
 
+The computer vision companion project can be found [here](https://github.com/Bryatt-Tech-Group/occupancy-tracking-system).
+
 ## `Goal`
 
 Our goal was to automate the occupancy tracking process to free up the services of employees and make a more efficient way of reserving your spot in line, without actually waiting for it.
